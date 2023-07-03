@@ -17,10 +17,11 @@ db.on('error', (error) => console.error("db error ::: ",error))
 db.once('open', () => console.log("database connected..."))
 
 //API routes
-const authRouter = require('../src/routes/auth')
+const authRouter = require('../src/routes/auth');
+const userRouter = require('../src/routes/user');
 
 app.use('/api/auth', authRouter);
-
+app.use('/api/user', userRouter);
 
 
 //server
