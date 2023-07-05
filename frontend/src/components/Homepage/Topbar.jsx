@@ -3,7 +3,7 @@ import React from 'react'
 export default function Topbar() {
   return (
     <>
-        <header>
+        <header className='topbar' >
             <div className="p-3 text-center bg-dark border-bottom">
                 <div className="container">
                 <div className="row gy-3">
