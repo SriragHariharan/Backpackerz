@@ -1,12 +1,12 @@
 import './App.css';
-import Auth from './pages/Auth';
-import Profile from './pages/Profile';
-
+import { RouterProvider } from 'react-router-dom';
+import useRouter from './router/useRouter';
 
 function App() {
+  const {router} = useRouter()
   return (
     <div className="App">
-       <Auth/>
+       <RouterProvider router={router} />
     </div>
   );
 }

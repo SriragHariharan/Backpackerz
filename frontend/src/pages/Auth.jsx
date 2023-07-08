@@ -10,7 +10,7 @@ export default function Auth() {
       <div className="loginWrapper">
         
         <div className="col-md-8 d-none d-sm-block ">
-          <div className=" h-100 d-flex flex-column align-items-center justify-content-center">
+          <div className="h-100 d-flex flex-column align-items-center justify-content-center">
             <div className="h1 loginLogo">TECH 🌎 TALK</div>
             <p className='text-light'>Connect with techies all over the world.</p>
             </div>

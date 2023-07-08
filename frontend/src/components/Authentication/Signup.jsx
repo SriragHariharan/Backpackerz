@@ -9,11 +9,11 @@ export default function Signup({setNewUser}) {
 
   return (
     <>
-        <div className="d-block d-sm-none d-flex flex-column align-items-center justify-content-center">
+        <div className="d-block d-sm-none d-flex flex-column align-items-center justify-content-center" style={{marginTop:'-200px'}}>
             <div className="h1 text-light">TECH 🌎 TALK</div>
             <p className='text-light'>Connect with techies all over the world.</p>
         </div>
-        <form className="loginBox" onSubmit={handleSubmit(onSubmit)}>
+        <form className="loginBox card" onSubmit={handleSubmit(onSubmit)}>
             <input {...register("email", { required: true, pattern:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })} placeholder="Email" type="email" className="loginInput" />
             {errors.email?.type === 'required' && <p className='form-error'>email required</p>}
             {errors.email?.type === 'pattern' && <p className='form-error'>Invalid email address</p>}
