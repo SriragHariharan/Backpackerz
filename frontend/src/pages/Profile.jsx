@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Feed from '../components/Homepage/Feed'
 import Topbar from '../components/Homepage/Topbar'
 import Sidebar from '../components/Homepage/Sidebar'
 import Rightbar from '../components/Homepage/Rightbar'
+import Updateprofile from '../components/Profile/Updateprofile'
 
 export default function Profile() {
+    const [basicModal, setBasicModal] = useState(false);
+      const toggleShow = () => setBasicModal(!basicModal);
   return (
     <>
       <Topbar/>
       <div className="profile">
         <Sidebar/>
+        <Updateprofile basicModal={basicModal} setBasicModal={setBasicModal} toggleShow={toggleShow}  />
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
@@ -49,7 +53,7 @@ export default function Profile() {
             
 
             <div className="text-center">
-                <button className="btn ms-4 me-4 mb-5 btn-info w-75">E D I T &nbsp; &nbsp;  P R O F I L E</button>
+                <button onClick={toggleShow} className="btn ms-4 me-4 mb-5 btn-info w-75">E D I T &nbsp; &nbsp;  P R O F I L E</button>
             </div>
           </div>
           <div className="profileRightBottom">

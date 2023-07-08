@@ -13,6 +13,15 @@
   justify-content: flex-end;
   color: white;
 }
+.searchbar{
+  display: flex;
+  background-color: white;
+  border-radius: 20px;
+}
+.searchbar i{
+  margin-top: 8px;
+  margin-left: 16px;
+}
 
 .topbarIcons {
   display: flex;

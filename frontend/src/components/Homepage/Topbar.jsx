@@ -46,7 +46,8 @@ export default function Topbar() {
                     {/* searchbar start */}
                     <div className="col-lg-4 col-md-12 col-12">
                         <div className="input-group float-center">
-                            <div className="form-outline w-100">
+                            <div className="form-outline searchbar w-100">
+                                <i class="fa-solid fa-magnifying-glass"></i>
                                 <input type="search" className="form-control w-100" placeholder='Search for friends, posts & videos....' />
                             </div>
                         </div>
