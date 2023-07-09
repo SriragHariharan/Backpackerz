@@ -23,7 +23,7 @@ const addNewUser = async(req, res) => {
         return res.json({ success:true, message:"Signup successfull", data:{ username:savedUser.username}})
     } 
     catch (error) {
-        return res.json({ success:false, message:err.message, error_code:400, data:{} })
+        return res.json({ success:false, message:error.message, error_code:400, data:{} })
     }
 }
 
@@ -44,7 +44,7 @@ const loginUser = async(req, res) => {
         return res.json({ success:true, message:"Login successfull", data:{ username:userExists.username}})
     } 
     catch (error) {
-        return res.json({ success:false, message:err.message, error_code:400, data:{} })
+        return res.json({ success:false, message:error.message, error_code:400, data:{} })
     }
 }
 

@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
+import { instance } from '../../axios/Instance';
 
 export default function Login({setNewUser}) {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+
+  //submitting data to server
+  const onSubmit = (data) => {
+    console.log(data);
+    instance.post('/auth/login', {...data})
+    .then(resp => {
+        setLoading(true);
+        if(resp.data.success === false){
+          setError(resp.data.message)
+          setLoading(false)
+        }
+        else{
+          setData(resp.data.data);
+          setLoading(false);
+        }
+    })
+    .catch(err => setError(err.message) )
+  } 
 
   return (
     <>

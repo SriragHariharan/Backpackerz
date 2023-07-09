@@ -4,10 +4,16 @@ import {
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
+
+//layouts
 import RootLayout from './RootLayout';
-import Auth from '../pages/Auth';
+
+//pages
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
+import Auth from '../pages/Auth';
+
+
 export default function useRouter() {
   
   //routes are setup here
@@ -16,7 +22,7 @@ export default function useRouter() {
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path='profile' element={<Profile/>} />
-      <Route path="auth" element={<Auth />} />
+      <Route path="auth" element={<Auth/> } />
     </Route>
   )
 )
