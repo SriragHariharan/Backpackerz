@@ -1,26 +1,26 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { instance } from '../../axios/Instance';
+import { ToastContainer } from 'react-toastify';
+import ErrorToast from '../General/ErrorToast';
+import { useDispatch } from 'react-redux';
+import { LoginUser } from '../../redux-toolkit/reducers/UserReducer';
 
 export default function Login({setNewUser}) {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+  const dispatch = useDispatch();
 
   //submitting data to server
   const onSubmit = (data) => {
     console.log(data);
     instance.post('/auth/login', {...data})
     .then(resp => {
-        setLoading(true);
         if(resp.data.success === false){
           setError(resp.data.message)
-          setLoading(false)
         }
         else{
-          setData(resp.data.data);
-          setLoading(false);
+          dispatch(LoginUser(resp.data.data))
         }
     })
     .catch(err => setError(err.message) )
@@ -28,6 +28,8 @@ export default function Login({setNewUser}) {
 
   return (
     <>
+        { error && <ErrorToast errorMessage={error} /> }
+        <ToastContainer/>
         <div className="d-block d-sm-none d-flex flex-column align-items-center justify-content-center" style={{marginTop:'-200px'}}>
             <div className="h1 text-light">TECH 🌎 TALK</div>
             <p className='text-light'>Connect with techies all over the world.</p>

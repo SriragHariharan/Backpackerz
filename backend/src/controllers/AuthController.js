@@ -20,7 +20,7 @@ const addNewUser = async(req, res) => {
         let savedUser = await newUser.save()
         let token = generateJWT(savedUser._id)
         res.cookie('TechTalkToken',token, { maxAge: process.env.COOKIE_MAXAGE, httpOnly: true });
-        return res.json({ success:true, message:"Signup successfull", data:{ username:savedUser.username}})
+        return res.json({ success:true, message:"Signup successfull", data:{ username:savedUser.username, userID : savedUser._id }})
     } 
     catch (error) {
         return res.json({ success:false, message:error.message, error_code:400, data:{} })
@@ -41,7 +41,7 @@ const loginUser = async(req, res) => {
         }
         let token = generateJWT(userExists._id)
         res.cookie('TechTalkToken',token, { maxAge: process.env.COOKIE_MAXAGE, httpOnly: true });
-        return res.json({ success:true, message:"Login successfull", data:{ username:userExists.username}})
+        return res.json({ success:true, message:"Login successfull", data:{ username:userExists.username, userID : userExists._id }})
     } 
     catch (error) {
         return res.json({ success:false, message:error.message, error_code:400, data:{} })

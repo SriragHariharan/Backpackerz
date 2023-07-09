@@ -2,6 +2,7 @@ import React from 'react'
 import {
     createBrowserRouter,
     createRoutesFromElements,
+    Navigate,
     Route,
 } from "react-router-dom";
 
@@ -12,17 +13,20 @@ import RootLayout from './RootLayout';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Auth from '../pages/Auth';
+import { useSelector } from 'react-redux';
 
 
 export default function useRouter() {
-  
+  //fetching user from state
+  const USER = useSelector(state => state.user?.user)
+
   //routes are setup here
   const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
-      <Route path='profile' element={<Profile/>} />
-      <Route path="auth" element={<Auth/> } />
+      <Route index element={ USER ? <Home /> : <Navigate to={'/auth'}/> } />
+      <Route path='profile' element={ USER ? <Profile/> : <Navigate to={'/auth'}/>} />
+      <Route path="auth" element={ !USER ? <Auth/> : <Navigate to={'/'}/> } />
     </Route>
   )
 )

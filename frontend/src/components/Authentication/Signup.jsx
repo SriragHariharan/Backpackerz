@@ -4,13 +4,15 @@ import Loading from "../General/Loading";
 import ErrorToast from "../General/ErrorToast";
 import { instance } from "../../axios/Instance";
 import { ToastContainer } from 'react-toastify';
+import { useDispatch } from 'react-redux'
+import { LoginUser } from "../../redux-toolkit/reducers/UserReducer";
 
 export default function Signup({setNewUser}) {
   const { register, formState: { errors }, handleSubmit, watch } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
-  
+  const dispatch = useDispatch();
+
   //submitting data to backend
   const onSubmit = (data) => {
     delete data.confirm_pwd;
@@ -23,7 +25,7 @@ export default function Signup({setNewUser}) {
           setLoading(false)
         }
         else{
-          setData(resp.data.data);
+          dispatch(LoginUser(resp.data.data));
           setLoading(false);
         }
     })
