@@ -2,12 +2,14 @@ const express =require('express')
 const cors = require('cors');
 const bodyparser = require('body-parser')
 const app = express();
+const cookieParser = require("cookie-parser");
 
 //middlewares
 require('dotenv').config()
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
+app.use(cookieParser());
 
 //mongoose connection code
 const mongoose = require('mongoose')
