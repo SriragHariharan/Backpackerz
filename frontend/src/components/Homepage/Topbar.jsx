@@ -8,9 +8,16 @@ import {
   MDBDropdownItem,
 } from "mdb-react-ui-kit";
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { LogoutUser } from '../../redux-toolkit/reducers/UserReducer';
 
 export default function Topbar() {
+    const dispatch = useDispatch()
+    //logout user
+    const handleLogout = () => {
+        dispatch(LogoutUser());
+    }
+
   return (
     <>
         <header className='topbar' >
@@ -64,7 +71,7 @@ export default function Topbar() {
                                             <Link to={'/profile'}>Online</Link>
                                         </MDBDropdownItem>
                                         <MDBDropdownItem className='px-3 py-2'>
-                                            <Link to={'/profile'}>Logout</Link>
+                                            <Link onClick={handleLogout}>Logout</Link>
                                         </MDBDropdownItem>
                                     </MDBDropdownMenu>
                                     </MDBDropdown>

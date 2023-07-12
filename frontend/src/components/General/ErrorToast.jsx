@@ -5,7 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function ErrorToast({errorMessage}) {
     const showToastMessage = () => {
         toast.error(errorMessage, {
-            position: toast.POSITION.TOP_CENTER
+            position: toast.POSITION.TOP_CENTER,
+             toastId: 'errorToast1',
         });
     };
   return (
