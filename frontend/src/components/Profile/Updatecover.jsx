@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   MDBBtn,
   MDBModal,
@@ -9,19 +10,49 @@ import {
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
 import { useForm } from "react-hook-form";
+import ErrorToast from '../General/ErrorToast';
+import SuccessToast from '../General/SuccessToast';
+import { ToastContainer } from 'react-toastify';
+
 
 export default function Updatecover({coverModal, setCoverModal, toggleCover}) {
     const { register, handleSubmit } = useForm();
-    //submitting form to backend to update changes
+    const [success, setSuccess] = useState(null)
+    const [error, setError] = useState(null)
+
+    //submitting form to backend to update cover pic
     const onSubmit = (data) => {
-        const formData = new FormData();
-         formData.append("coverPic", data?.coverPic[0] );
+      if(data === undefined){
+        return;
+      }
+      //console.log(data.profilePic[0]);
+      const formData = new FormData();
+      formData.append("coverPic", data.coverPic[0] );
+      console.log(...formData);
+
+      fetch(process.env.REACT_APP_BASE_URL+'/user/update-profile-pic/2',{
+            method:"POST",
+            body:formData,
+            credentials: 'include'
+      })
+      .then(resp => resp.json())
+      .then(json => {
+        setSuccess(json.message);
+        setCoverModal(false)
+      })
+      .catch(error => setError(error.message))
     }
+
   
   
   
     return (
     <MDBModal show={coverModal} setShow={setCoverModal} tabIndex='-1'>
+
+      {error && <ErrorToast errorMessage={error} /> }
+      {success && <SuccessToast successMsg={success} />}
+      <ToastContainer />
+
         <MDBModalDialog centered>
           <MDBModalContent>
             <MDBModalHeader>

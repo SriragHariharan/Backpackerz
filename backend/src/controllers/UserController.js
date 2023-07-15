@@ -125,16 +125,16 @@ const updateProfilePic = async(req, res) => {
             if(userProfile.coverPic !== null){
                 fs.unlinkSync(uploadPathCoverPic + userID+"-cover.jpg");
                 coverPic.mv(uploadPathCoverPic + userID +"-cover.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
-                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-cover.jpg`
-                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
-                return res.json({ success:true, message : "Profile pic updated", data:{} });
+                let coverPicLink = `${process.env.SERVER_URL}cover-pics/${userID}-cover.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{coverPic :coverPicLink }});
+                return res.json({ success:true, message : "Cover pic updated", data:{} });
             }
             //moving an image to static folder
             else{
-                profilePic.mv(uploadPathCoverPic + userID +"-cover.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
-                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-cover.jpg`
-                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
-                return res.json({ success:true, message : "Profile pic updated", data:{} });
+                coverPic.mv(uploadPathCoverPic + userID +"-cover.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+                let coverPicLink = `${process.env.SERVER_URL}cover-pics/${userID}-cover.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{coverPic :coverPicLink }});
+                return res.json({ success:true, message : "Cover pic updated", data:{} });
             }
         }
         //code to delete an image if already existing in database

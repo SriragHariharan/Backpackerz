@@ -10,7 +10,6 @@ import {
   MDBModalFooter,
 } from 'mdb-react-ui-kit';
 import { useForm } from "react-hook-form";
-import { instance } from '../../axios/Instance';
 import SuccessToast from '../General/SuccessToast';
 import ErrorToast from '../General/ErrorToast';
 import { ToastContainer } from 'react-toastify';
