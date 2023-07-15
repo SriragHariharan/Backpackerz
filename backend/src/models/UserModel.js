@@ -15,11 +15,11 @@ const userSchema = new mongoose.Schema({
     },
     profilePic:{
         type:String,
-        default:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
+        default:null,
     },
     coverPic :{
         type:String,
-        default:""
+        default:null
     },
     description:{
         type:String,

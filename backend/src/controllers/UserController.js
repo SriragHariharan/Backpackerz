@@ -1,4 +1,8 @@
 const User = require('../models/UserModel');
+const uploadPathProfilePic ='./uploads/profile-pics/'
+const uploadPathCoverPic ='./uploads/cover-pics/'
+const fs = require("fs");
+
 
 //get a single user details
 const getUserDetails = async(req, res) => {
@@ -87,6 +91,58 @@ const unfollowUser = async(req, res) => {
 }
 
 
+//update profile pic
+const updateProfilePic = async(req, res) => {
+    try {
+        // id : 1 ==> update profile pic 
+        // id : 2 =+> update cover pic
+        
+        let userID = req.userID;
+        let userProfile = await User.findOne({_id:userID});
+        
+        //code to update profile pic
+        if(req.params.id == 1){
+            let profilePic = req.files.profilePic
+            if(userProfile.profilePic !== null){
+                fs.unlinkSync(uploadPathProfilePic + userID+"-profile.jpg");
+                profilePic.mv(uploadPathProfilePic + userID +"-profile.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-profile.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
+                return res.json({ success:true, message : "Profile pic updated", data:{} });
+            }
+            //moving an image to static folder
+            else{
+                profilePic.mv(uploadPathProfilePic + userID +"-profile.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-profile.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
+                return res.json({ success:true, message : "Profile pic updated", data:{} });
+            }
+        }
+        
+        //code to update cover pic
+        else{
+            let coverPic = req.files.coverPic;
+            if(userProfile.coverPic !== null){
+                fs.unlinkSync(uploadPathCoverPic + userID+"-cover.jpg");
+                coverPic.mv(uploadPathCoverPic + userID +"-cover.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-cover.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
+                return res.json({ success:true, message : "Profile pic updated", data:{} });
+            }
+            //moving an image to static folder
+            else{
+                profilePic.mv(uploadPathCoverPic + userID +"-cover.jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+                let profilePicLink = `${process.env.SERVER_URL}profile-pics/${userID}-cover.jpg`
+                let updatedResult = await User.updateOne({_id:userID}, {$set:{profilePic :profilePicLink }});
+                return res.json({ success:true, message : "Profile pic updated", data:{} });
+            }
+        }
+        //code to delete an image if already existing in database
+    } catch (error) {
+        return res.json({ success:false, message:error.message, error_code:500, data:{} })
+    }
+}
+
 
 
 module.exports= {
@@ -95,4 +151,5 @@ module.exports= {
     updateProfile,
     followUser,
     unfollowUser,
+    updateProfilePic,
 }

@@ -3,13 +3,18 @@ const cors = require('cors');
 const bodyparser = require('body-parser')
 const app = express();
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 //middlewares
 require('dotenv').config()
-app.use(cors());
+app.use(cors({origin: true, credentials: true}));
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
 app.use(cookieParser());
+app.use(fileUpload({ createParentPath: true, }) );
+
+//access static images
+app.use(express.static('uploads'));
 
 //mongoose connection code
 const mongoose = require('mongoose')

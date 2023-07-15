@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { getUserDetails, deleteUser, updateProfile, followUser, unfollowUser } = require('../controllers/UserController')
+const { getUserDetails, deleteUser, updateProfile, followUser, unfollowUser, updateProfilePic } = require('../controllers/UserController')
 const { authMiddleware } = require('../middlewares/AuthMiddleware')
 
 //get user details
@@ -17,5 +17,8 @@ router.post('/follow/:id', authMiddleware, followUser );
 
 //unfollow a user
 router.post('/unfollow/:id', authMiddleware, unfollowUser );
+
+//update profile pic
+router.post('/update-profile-pic/:id', authMiddleware, updateProfilePic)
 
 module.exports = router
