@@ -1,6 +1,7 @@
 const Post = require('../models/PostModel');
 const User = require('../models/UserModel');
 const mongoose = require('mongoose')
+const uploadPathPost ='./uploads/posts/'
 
 //add new post
 const addNewPost = async(req, res) => {
@@ -11,7 +12,14 @@ const addNewPost = async(req, res) => {
         if(!savedPost){
             return res.json({ success:false, message:"Unable to post", error_code:403, data:{} })
         }
-        return res.json({ success:true, message:"Data posted successfully", data:{} })
+        if(req.files !== null){
+            let postImage = req.files.image;
+            postImage.mv(uploadPathPost + userID +".jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+            let postPicLink = `${process.env.SERVER_URL}posts/${savedPost._id}.jpg`
+            let updatedResult = await Post.updateOne({_id:savedPost._id}, {$set:{image :postPicLink }});
+            return res.json({ success:true, message:"New post added successfully", data:{} })
+        }
+        return res.json({ success:true, message:"New post added successfully", data:{} })
     } 
     catch (error) {        
         return res.json({ success:false, message:"Unable to post", error_code:403, data:{} })
