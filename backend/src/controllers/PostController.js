@@ -14,7 +14,7 @@ const addNewPost = async(req, res) => {
         }
         if(req.files !== null){
             let postImage = req.files.image;
-            postImage.mv(uploadPathPost + userID +".jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
+            postImage.mv(uploadPathPost + savedPost._id +".jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
             let postPicLink = `${process.env.SERVER_URL}posts/${savedPost._id}.jpg`
             let updatedResult = await Post.updateOne({_id:savedPost._id}, {$set:{image :postPicLink }});
             return res.json({ success:true, message:"New post added successfully", data:{} })
@@ -103,7 +103,7 @@ const likeORunlike = async(req, res) => {
 const getTimelinePosts = async(req, res) => {
     try {
         let userDetails = await User.findOne({_id:req.userID});
-        let userPosts = await Post?.find({userID:req.userID});
+        let userPosts = await Post?.find({userID:req.userID}).sort({createdAt:-1});
         let friendsPosts = await Promise.all(
             userDetails?.followers?.map(async friendID => await Post.find({userID : friendID}))   
         );

@@ -44,7 +44,6 @@ export default function AddNewPost() {
       })
       .then(resp => resp.json())
       .then(json => {
-        console.log(json);
           setSuccess(null)
           setSuccess(json.message);
           setImage(null);
