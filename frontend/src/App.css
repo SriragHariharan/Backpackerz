@@ -64,7 +64,7 @@
 /* styles for left sidebar starts here */
 .sidebar {
   flex: 2.5;
-  height: calc(100vh - 90px);
+  height: calc(100vh);
   overflow-y: scroll;
   position: sticky;
   top: 50px;

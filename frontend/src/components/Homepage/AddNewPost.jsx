@@ -29,7 +29,7 @@ export default function AddNewPost() {
     const handleSubmit = (e) => {
       e.preventDefault();
       const formData = new FormData();
-      if(image === null && description === null){
+      if(image === null && description === ""){
         return;
       }
       if(image !== null){
