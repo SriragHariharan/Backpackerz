@@ -4,11 +4,15 @@ import AddNewPost from './AddNewPost'
 import BirthdayPost from './BirthdayPost'
 import Suggestions from './Suggestions'
 import { instance } from '../../axios/Instance'
+import { useDispatch, useSelector } from 'react-redux'
+import { addPosts } from '../../redux-toolkit/reducers/PostsReducer'
 
 export default function Feed() {
 
-  const [posts, setPosts] = useState([]);
+  let posts = useSelector(state => state.posts?.posts);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     instance.get('/post/timeline')
@@ -16,8 +20,7 @@ export default function Feed() {
       if(resp.data.success === false){
         setError(resp.data.message)
       }else{
-        console.log(resp.data.data);
-        setPosts(resp.data.data.posts)
+        dispatch(addPosts(resp.data.data.posts))
       }
     })
     .catch(err => setError(err.message))

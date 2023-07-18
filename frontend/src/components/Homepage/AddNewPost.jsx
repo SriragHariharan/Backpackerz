@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ErrorToast from '../General/ErrorToast';
 import SuccessToast from '../General/SuccessToast';
 import { ToastContainer } from 'react-toastify';
+import { addNewPost } from '../../redux-toolkit/reducers/PostsReducer';
 
 
 export default function AddNewPost() {
   let user = useSelector(state => state.user?.user)
-  console.log(user?.userID);
   
   //images link
   let defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
@@ -19,6 +19,8 @@ export default function AddNewPost() {
    const [description, setDescription] = useState("");
    const [success, setSuccess] = useState(null);
    const [error, setError] = useState(null);
+   
+   const dispatch = useDispatch();
 
     const onChangePicture1 = (e) => {
         setImage1(URL.createObjectURL(e.target.files[0]));
@@ -44,6 +46,7 @@ export default function AddNewPost() {
       })
       .then(resp => resp.json())
       .then(json => {
+          dispatch(addNewPost(json.data.post))
           setSuccess(null)
           setSuccess(json.message);
           setImage(null);

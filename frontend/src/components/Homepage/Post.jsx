@@ -4,6 +4,8 @@ import SuccessToast from '../General/SuccessToast';
 import ErrorToast from '../General/ErrorToast';
 import { ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { deletePost } from '../../redux-toolkit/reducers/PostsReducer';
 
 
 export default function Post({post}) {
@@ -11,6 +13,7 @@ export default function Post({post}) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const dispatch = useDispatch();
 
   //fetch details of user
   useEffect( () => {
@@ -32,6 +35,7 @@ export default function Post({post}) {
       if(resp.data.success === false){
         setError(resp.data.messsage)
       }else{
+        dispatch(deletePost(postID))
         setSuccess(resp.data.message)
       }
     }).catch(err => setError(err.message))
@@ -58,7 +62,7 @@ export default function Post({post}) {
                     />
                   </Link>
                   <span className="postUsername">{user?.username}</span>
-                  <span className="postDate">{post.createdAt.split('T')[0]}</span>
+                  <span className="postDate">{post.createdAt?.split('T')[0]}</span>
                 </div>
                 <div className="postTopRight">
                   {
@@ -78,7 +82,7 @@ export default function Post({post}) {
                 <div className="postBottomLeft">
                   <i className="fa-regular fa-heart me-1"></i>
                   <i className="fa-solid fa-heart me-1" style={{color: "#ff0f0f"}}></i>
-                  <span className="postLikeCounter">{post.likes.length} likes</span>
+                  <span className="postLikeCounter">{post.likes?.length} likes</span>
                 </div>
                 <div className="postBottomRight">
                   <i className="fa-regular fa-comment me-1"></i>

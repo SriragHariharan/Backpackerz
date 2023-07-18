@@ -17,9 +17,11 @@ const addNewPost = async(req, res) => {
             postImage.mv(uploadPathPost + savedPost._id +".jpg", function(err) { if (err) return res.json({success:false, message:"Server Error", error_code:500, data:{} }) });
             let postPicLink = `${process.env.SERVER_URL}posts/${savedPost._id}.jpg`
             let updatedResult = await Post.updateOne({_id:savedPost._id}, {$set:{image :postPicLink }});
-            return res.json({ success:true, message:"New post added successfully", data:{} })
+            var post = await Post.findOne({_id:savedPost._id});
+            return res.json({ success:true, message:"New post added successfully", data:{post} })
         }
-        return res.json({ success:true, message:"New post added successfully", data:{} })
+        var post = await Post.findOne({_id:savedPost._id});
+        return res.json({ success:true, message:"New post added successfully", data:{post} })
     } 
     catch (error) {        
         return res.json({ success:false, message:"Unable to post", error_code:403, data:{} })
