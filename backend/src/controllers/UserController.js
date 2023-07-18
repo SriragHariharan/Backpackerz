@@ -143,6 +143,19 @@ const updateProfilePic = async(req, res) => {
     }
 }
 
+//to get suggestions based on the city 
+const getSuggestions = async(req, res) => {
+    try {
+        let userID = req.userID;
+        let user = await User.findOne({_id: userID});
+        let suggestions = await User.find({city: user?.city})
+        return res.json({ success: true, message: "Suggestions fetched", data:{suggestions}});   
+    } 
+    catch (error) {
+        return res.json({success:false, message:"Unable to fetch suggestions", error_code:500, data:{}})    
+    }
+
+}
 
 
 module.exports= {
@@ -152,4 +165,5 @@ module.exports= {
     followUser,
     unfollowUser,
     updateProfilePic,
+    getSuggestions
 }

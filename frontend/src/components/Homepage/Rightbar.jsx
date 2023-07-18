@@ -1,13 +1,14 @@
 import React from 'react'
-import Profilerightbar from '../Rightbar/Profilerightbar';
-import Homerightbar from '../Rightbar/Homerightbar';
+import FriendsList from '../Rightbar/FriendsList'
+import Suggestions from '../Rightbar/Suggestions'
 
 export default function Rightbar() {
-    const user = true;
     return (
         <div className="rightbar d-none d-sm-block">
             <div className="rightbarWrapper">
-                {user ? <Profilerightbar/> : <Homerightbar/> }
+                <FriendsList />
+                <hr className="sidebarHr" />
+                <Suggestions />
             </div>
         </div>        
         )

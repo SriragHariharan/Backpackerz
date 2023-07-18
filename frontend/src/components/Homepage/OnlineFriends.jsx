@@ -1,8 +1,7 @@
 import React from 'react'
-import Online from '../Homepage/Online'
-import Suggestions from '../Homepage/Suggestions'
+import Online from './Online'
 
-export default function Homerightbar() {
+export default function OnlineFriends() {
   return (
     <>
         <div className="birthdayContainer">
@@ -17,14 +16,10 @@ export default function Homerightbar() {
         {/* online friends */}
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
-            <Online/><Online/><Online/><Online/><Online/><Online/><Online/>
+            <Online/><Online/><Online/>
         </ul>
         <hr className="sidebarHr" />
-        {/* friend suggestions */}
-        <h4 className="rightbarTitle">Suggestions</h4>
-        <ul className="sidebarFriendList">
-            <Suggestions/><Suggestions/><Suggestions/><Suggestions/><Suggestions/>
-        </ul>
+        
       </>
     )
 }
