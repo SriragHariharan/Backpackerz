@@ -28,7 +28,7 @@ export default function Profile() {
 
       const [userDetails, setUserDetails] = useState(null);
       const [error, setError] = useState(null)
-
+      console.log(userDetails);
       //fetching details of user on page load
       useEffect( () => {
         instance.get('/user/get-profile')

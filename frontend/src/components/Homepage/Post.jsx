@@ -17,7 +17,7 @@ export default function Post({post}) {
 
   //fetch details of user
   useEffect( () => {
-    instance.get('/user/get-profile')
+    instance.get('/user/get-profile/'+post.userID)
     .then(resp => {
         if(resp.data.success === false){
           return;
@@ -26,7 +26,7 @@ export default function Post({post}) {
         }
     })
     // .catch(err => setError(err.message))
-  }, []);
+  }, [post.userID]);
 
   //delete a post
   const handlePostDelete = (postID) => {
@@ -41,7 +41,7 @@ export default function Post({post}) {
     }).catch(err => setError(err.message))
   }
 
-
+  
 
   return (
     <>
@@ -74,6 +74,7 @@ export default function Post({post}) {
               <div className="postCenter">
                 <span className="postText">{post.description}</span>
                 <img className="postImg" 
+                  alt='post banner'
                   src={post.image}
                   loading='lazy'
                   />

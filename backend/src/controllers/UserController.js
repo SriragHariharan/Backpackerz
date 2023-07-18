@@ -1,4 +1,5 @@
 const User = require('../models/UserModel');
+const Post = require('../models/PostModel');
 const uploadPathProfilePic ='./uploads/profile-pics/'
 const uploadPathCoverPic ='./uploads/cover-pics/'
 const fs = require("fs");
@@ -154,9 +155,24 @@ const getSuggestions = async(req, res) => {
     catch (error) {
         return res.json({success:false, message:"Unable to fetch suggestions", error_code:500, data:{}})    
     }
-
 }
 
+//get the details of an another account holder for viewing his profile
+const getFollowerDetails = async(req, res) => {
+    try {
+        let userID = req.params.id;
+        let userDetails = await User.findOne({_id:userID});
+        if(userDetails === {} || userDetails === undefined || userDetails === null){
+            return res.json({ success:false, message:"Cannot find user", error_code:404, data:{} });
+        }
+        let posts = await Post.find({userID});
+        userDetails.password = null;  //preventing password to be sent to frontend
+        return res.json({ success:true, message:"Data fetched successfully", data:{userDetails, posts} })
+    } 
+    catch (error) {
+            return res.json({ success:false, message:error.message, error_code:404, data:{} });        
+    }
+}
 
 module.exports= {
     getUserDetails,
@@ -165,5 +181,6 @@ module.exports= {
     followUser,
     unfollowUser,
     updateProfilePic,
-    getSuggestions
+    getSuggestions,
+    getFollowerDetails,
 }
