@@ -4,7 +4,7 @@ import SuccessToast from '../General/SuccessToast';
 import ErrorToast from '../General/ErrorToast';
 import { ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../../redux-toolkit/reducers/PostsReducer';
 
 
@@ -15,6 +15,11 @@ export default function Post({post}) {
   const [success, setSuccess] = useState(null);
   const dispatch = useDispatch();
 
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount]= useState(0);
+  const {userID:loggedInUserID} = useSelector(state => state.user?.user);
+
+
   //fetch details of user
   useEffect( () => {
     instance.get('/user/get-profile/'+post.userID)
@@ -22,11 +27,13 @@ export default function Post({post}) {
         if(resp.data.success === false){
           return;
         }else{
-          setUser(resp.data.data.userDetails)
+          setUser(resp.data.data.userDetails);
+          setLikesCount(post?.likes?.length);
+          setIsLiked(post?.likes?.includes(loggedInUserID))
         }
     })
     // .catch(err => setError(err.message))
-  }, [post.userID]);
+  }, [post.userID, post.likes, loggedInUserID]);
 
   //delete a post
   const handlePostDelete = (postID) => {
@@ -41,7 +48,24 @@ export default function Post({post}) {
     }).catch(err => setError(err.message))
   }
 
-  
+  //handle like-unlike
+  const handleLikeUnlike = (postID) => {
+    instance.post('/post/like-unlike/'+postID)
+    .then(resp => {
+        if(resp.data.success === false){
+          setError(resp.data.message);
+        }else{
+          if(resp.data.data.like === 1 ){
+            setIsLiked(true);
+            setLikesCount(likesCount + Number(resp.data.data.like) )
+          }else{
+            setIsLiked(false);
+            setLikesCount(likesCount + Number(resp.data.data.like) )
+          }   
+        }
+    })
+    .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -66,7 +90,7 @@ export default function Post({post}) {
                 </div>
                 <div className="postTopRight">
                   {
-                    user?._id === post.userID && <i class="fa-solid fa-trash fa-sm" onClick={() => handlePostDelete(post._id)}></i>
+                    loggedInUserID === post.userID && <i class="fa-solid fa-trash fa-sm" onClick={() => handlePostDelete(post._id)}></i>
                   }
                     
                 </div>
@@ -81,9 +105,13 @@ export default function Post({post}) {
               </div>
               <div className="postBottom">
                 <div className="postBottomLeft">
-                  <i className="fa-regular fa-heart me-1"></i>
-                  <i className="fa-solid fa-heart me-1" style={{color: "#ff0f0f"}}></i>
-                  <span className="postLikeCounter">{post.likes?.length} likes</span>
+                  {
+                  isLiked === true ?
+                    <i onClick={() => handleLikeUnlike(post?._id)} className="fa-solid fa-heart me-1 fa-lg" style={{color: "#ff0f0f"}}></i>
+                      :
+                    <i onClick={() => handleLikeUnlike(post?._id)} className="fa-regular fa-heart me-1"></i>
+                  }
+                  <span className="postLikeCounter">{likesCount} likes</span>
                 </div>
                 <div className="postBottomRight">
                   <i className="fa-regular fa-comment me-1"></i>

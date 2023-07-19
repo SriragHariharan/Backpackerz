@@ -80,7 +80,7 @@ const likeORunlike = async(req, res) => {
             // if post is not liked then update the likes[] with userID 
             let response = await Post.updateOne({_id:postID}, {$push:{likes:req.userID}});
             if(response.acknowledged === true && response.modifiedCount === 1){
-                return res.json({ success:true, message:"Post liked", data:{} })
+                return res.json({ success:true, message:"Post liked", data:{like:+1} })
             }else{
                 return res.json({ success:false, message:"Unable to like", error_code:500, data:{} })                
             }
@@ -90,7 +90,7 @@ const likeORunlike = async(req, res) => {
             // if post is already liked then unlike post by pulling out userID from the likes[] 
             let response = await Post.updateOne({_id:postID}, {$pull:{likes:req.userID}});
              if(response.acknowledged === true && response.modifiedCount === 1){
-                return res.json({ success:true, message:"Post unliked", data:{} })
+                return res.json({ success:true, message:"Post unliked", data:{like:-1} })
             }else{
                 return res.json({ success:true, message:"Unable to unlike", error_code:500, data:{} })                
             }
