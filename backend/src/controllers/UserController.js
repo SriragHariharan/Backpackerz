@@ -60,6 +60,11 @@ const followUser = async(req, res) => {
         if(userID === followerID){
             return res.json({ success:false, message:"You cant follow yourself", error_code:400, data:{} });            
         }
+        let userDetailsFromDB = await User.findOne({_id:userID});
+        let isFollowing = userDetailsFromDB.followers.includes(followerID);
+        if(isFollowing === true){
+            return res.json({success: false, message: "Already following the user", error_code:400, data:{} })
+        }
         let user = await User.updateOne({_id:userID}, {$push:{followers : followerID }}) 
         let follower = await User.updateOne({_id:followerID}, {$push:{following:userID}}) 
         if(user.acknowledged === true && user.modifiedCount === 1 && follower.acknowledged === true && follower.modifiedCount === 1 ){

@@ -11,27 +11,63 @@ export default function ExternalProfile() {
     
     const [userDetails, setUserDetails] = useState(null);
     const [posts, setPosts] = useState([]);
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
+
     const {id} = useParams();
     
-      //fetching details of user on page load
-      useEffect( () => {
-        instance.get('/user/get-profile/'+id)
-        .then(resp => {
-          if(resp.data.success === false){
-              setError(resp.data.message)
-            }else{
-                setUserDetails(resp.data.data.userDetails);
-                setPosts(resp.data.data.posts)
+    
+    //fetching details of user on page load
+    useEffect( () => {
+      instance.get('/user/get-profile/'+id)
+      .then(resp => {
+        if(resp.data.success === false){
+          setError(resp.data.message)
+        }else{
+          setPosts(resp.data.data.posts)
+          setUserDetails(resp.data.data.userDetails);
+          let loggedInAccountUser = JSON.parse(localStorage.getItem('TechTalkUser'));
+          //here the logic is :
+          //we are fetching the followings array of the user fetched to useEffect.
+          //when the followings array contains the ID of the loggedIn user then the loggedIn user is following the user whose profile is being viewed.
+          let followings = resp.data.data.userDetails?.following
+          let isFollowings = followings.filter(item => item === loggedInAccountUser.userID );
+          if(isFollowings.length >0){
+            setIsFollowing(true);
           }
-        })
-        .catch(err => setError(err.message))
+        }
+      })
+      .catch(err => setError(err.message))
       }, [id])
 
       //conditional rendering of images
       let defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 
-      
+      //code to follow a user
+      const handleFollow = (userID) => {
+        instance.post('/user/follow/'+userID)
+        .then(resp => {
+          if(resp.data.success === false){
+            setError(resp.data.message);
+          }else{
+            setIsFollowing(true)
+          }
+        })
+        .catch(err => setError(err.message))
+      }
+
+      //code to follow a user
+      const handleUnfollow = (userID) => {
+        instance.post('/user/unfollow/'+userID)
+        .then(resp => {
+          if(resp.data.success === false){
+            setError(resp.data.message);
+          }else{
+            setIsFollowing(false)
+          }
+        })
+        .catch(err => setError(err.message))
+      }
       
       
       
@@ -41,7 +77,7 @@ export default function ExternalProfile() {
             { error && <ErrorToast errorMessage={error} /> }
             <ToastContainer/>
 
-            {!error && (
+            
             <div className="profile">
               <Sidebar/>
               
@@ -83,7 +119,12 @@ export default function ExternalProfile() {
                   </div>
                                    
                   <div className="text-center">
-                    <div className="btn p-3 ms-4 me-4 mb-5 btn-warning w-75 h1"><b>F O L L O W</b></div>
+                    {
+                      isFollowing===false ?
+                      <div onClick={ () =>handleFollow(userDetails?._id)} className="btn p-3 ms-4 me-4 mb-5 btn-warning w-75 h1"><b>F O L L O W</b></div>
+                      :
+                      <div onClick={ () =>handleUnfollow(userDetails?._id)} className="btn p-3 ms-4 me-4 mb-5 btn-dark w-75 h1"><b>U N F O L L O W</b></div>
+                    }
                   </div>
                 </div>
 
@@ -95,7 +136,6 @@ export default function ExternalProfile() {
 
               </div>
             </div>
-            )}
           </> 
      )
 }
