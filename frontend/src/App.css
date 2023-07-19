@@ -6,6 +6,15 @@
 }
 
 /* styles for topbar start */
+.topbar-branding{
+  display: flex;
+  flex-direction: row;
+}
+.logo-text{
+font-family: 'Sacramento' !important;
+font-size: 60px;
+}
+
 .topbarRight {
   flex: 4;
   display: flex;
@@ -64,10 +73,10 @@
 /* styles for left sidebar starts here */
 .sidebar {
   flex: 2.5;
-  height: calc(100vh);
+  height: calc(83vh);
   overflow-y: scroll;
   position: sticky;
-  top: 50px;
+  top: 110px;
 }
 
 ::-webkit-scrollbar {

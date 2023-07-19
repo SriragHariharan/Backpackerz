@@ -1,7 +1,6 @@
 .login {
     width: 100vw;
     height: 100vh;
-    background-color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,14 +21,15 @@
 }
 
 .loginLogo {
-    font-size: 50px;
-    font-weight: 800;
-    color: #1775ee;
+    font-size: 100px;
+    color: black;
     margin-bottom: 10px;
+    font-family: 'Sacramento' !important;
 }
 
-.loginDesc {
-    font-size: 24px;
+.login-desc {
+    color: lavender;
+    font-size: 20px;
 }
 
 .loginBox {

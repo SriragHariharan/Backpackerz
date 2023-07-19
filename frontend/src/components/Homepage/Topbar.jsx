@@ -24,21 +24,21 @@ export default function Topbar() {
     return (
     <>
         <header className='topbar' >
-            <div className="p-3 text-center bg-dark border-bottom">
+            <div className="p-3 text-center bg-primary border-bottom">
                 <div className="container">
                 <div className="row gy-3">
                     
                     {/* logo starts */}
-                    <Link to={'/'} className="col-lg-3 col-sm-4 col-4">
-                        <div href="https://mdbootstrap.com/" className="float-start" >
-                            <div className='text-light d-lg-none' style={{fontSize:'15px'}}><b>Tech🌎Talk</b></div>
-                            <h2 className="d-none d-sm-block mb-0 text-light">TECH 🌎 TALK</h2>
+                    <Link to={'/'} className="col-lg-6 col-sm-6 col-6">
+                        <div className="float-start topbar-branding">
+                            <img height={'70px'} src="https://w7.pngwing.com/pngs/791/638/png-transparent-backpacking-backpacker-airbnb-logo-angle-microphone-photography.png" alt="" />
+                            <h2 className="logo-text d-none d-sm-block mb-0 text-light ms-3">Backpackerz</h2>
                         </div>
                     </Link>
                     {/* logo ends */}
 
                     {/* icons start */}
-                    <div className="topbarRight order-lg-last col-lg-5 col-sm-8 col-8">
+                    <div className="topbarRight order-lg-last col-lg-6 col-sm-6 col-6">
                         <div className="topbarIcons">
                         <div className="topbarIconItem">
                             <i className="fa-solid fa-user fa-lg"></i>
@@ -89,14 +89,14 @@ export default function Topbar() {
                     {/* icons ends */}
 
                     {/* searchbar start */}
-                    <div className="col-lg-4 col-md-12 col-12">
+                    {/* <div className="col-lg-4 col-md-12 col-12">
                         <div className="input-group float-center">
-                            <div className="form-outline searchbar w-100">
+                            <div className="form-outline searchbar">
                                 <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="search" className="form-control w-100" placeholder='Search for friends, posts & videos....' />
+                                <input type="search" className="form-control w-100" placeholder={'Search for friends, posts & videos....'} />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* searchbar ends */}
                 
                 </div>
