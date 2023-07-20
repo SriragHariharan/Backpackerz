@@ -1,25 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { instance } from '../../axios/Instance'
+import { Link } from 'react-router-dom';
 
-export default function FriendsList() {
+export default function FriendsList({friend}) {
+
+  const [friendDetails, setFriendDetails] = useState(null);
+
+  useEffect(() =>{
+    instance.get('/user/get-profile/'+friend)
+    .then(resp => {
+      if(resp.data.success === false){
+        return;
+      }else{
+        setFriendDetails(resp.data.data.userDetails)
+      }
+    })
+  },[friend]);
+
+  let defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+
   return (
-
-      <>
-       
-        <h4 className="rightbarTitle">User friends</h4>
-        <div className="row">
-          <div className="rightbarFollowings col-12 col-md-6">
-              <div style={{ textDecoration: "none" }}>
-                <div className="rightbarFollowing">
-                  <img
-                      src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1229892983-square.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*"
-                      alt=""
-                      className="rightbarFollowingImg"
-                  />
-                  <span className="rightbarFollowingName">Mahesh</span>
-                </div>
+      <>       
+        <Link to={'/external-profile/'+friend} className="rightbarFollowings col-12 col-md-4">
+            <div style={{ textDecoration: "none" }}>
+              <div className="rightbarFollowing">
+                <img
+                    src={defaultImg}
+                    alt="Avatar"
+                    loading="lazy"
+                    className="rightbarFollowingImg border"
+                    onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src=defaultImg;
+                    }}
+                />
+                <span className="rightbarFollowingName">{friendDetails?.username}</span>
               </div>
-          </div>
-        </div>
+            </div>
+        </Link>
       </>  
     )
 }

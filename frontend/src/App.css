@@ -407,6 +407,9 @@ font-size: 60px;
   object-fit: cover;
   border-radius: 5px;
 }
+.rightbarFollowingName{
+  font-size: 12px;
+}
 
 .rightbarFollowButton {
   margin-top: 30px;

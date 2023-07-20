@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 export default function Suggestions() {
   let user = useSelector(state => state.user?.user);
   const userID = user?.userID;
-
   let [suggestions, setSuggestions] = useState(null);
+  
   useEffect( () =>{
     instance.get('/user/suggestions')
     .then(resp => setSuggestions(resp.data.data.suggestions))
   },[] )
-  console.log(suggestions);
+
+
   return (
     <>
     <h4 className="rightbarTitle">Suggestions</h4>
