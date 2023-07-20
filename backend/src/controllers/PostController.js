@@ -47,19 +47,15 @@ const getPostDetails = async(req, res) => {
     }
 }
 
-//edit a single post
-const editPost = async(req, res) => {
+//add comment to a post
+const addComment = async(req, res) => {
     try {
-        let userID = req.userID;
         let postID = req.params.id;
         let post = await Post.findOne({_id:postID});
         if(post === undefined || post === {} ){
             return res.json({ success:false, message:"Unable to find post", error_code:404, data:{} })
         }
-        if(post.userID !== userID){
-            return res.json({ success:false, message:"Unauthorized request", error_code:401, data:{} })
-        }
-        let response = await Post.updateOne({_id:postID}, {$set:{...req.body}});
+        let response = await Post.updateOne({_id:postID}, {$push:{comments:req.body}});
         if(response.acknowledged !== true && response.modifiedCount < 1){
             return res.json({ success:true, message:"Unable to update post", data:{} })
         }
@@ -140,7 +136,7 @@ const deletePost = async(req, res) => {
 module.exports = {
     addNewPost,
     getPostDetails,
-    editPost,
+    addComment,
     likeORunlike,
     getTimelinePosts,
     deletePost,

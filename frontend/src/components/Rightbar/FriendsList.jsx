@@ -25,7 +25,7 @@ export default function FriendsList({friend}) {
             <div style={{ textDecoration: "none" }}>
               <div className="rightbarFollowing">
                 <img
-                    src={defaultImg}
+                    src={friendDetails?.profilePic}
                     alt="Avatar"
                     loading="lazy"
                     className="rightbarFollowingImg border"

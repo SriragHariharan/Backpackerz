@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { addNewPost, getPostDetails, editPost, likeORunlike, getTimelinePosts, deletePost } = require('../controllers/PostController');
+const { addNewPost, getPostDetails, editPost, likeORunlike, getTimelinePosts, deletePost, addComment } = require('../controllers/PostController');
 const { authMiddleware } = require('../middlewares/AuthMiddleware')
 
 //add a new post
@@ -9,7 +9,7 @@ router.post('/new-post', authMiddleware, addNewPost)
 router.get('/post-details/:id', authMiddleware, getPostDetails )
 
 //edit a post
-router.post('/edit-post/:id', authMiddleware, editPost)
+router.post('/add-comment/:id', authMiddleware, addComment)
 
 //like or unlike a post
 router.post('/like-unlike/:id', authMiddleware, likeORunlike)

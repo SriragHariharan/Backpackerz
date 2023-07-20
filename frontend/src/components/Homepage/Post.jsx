@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../../redux-toolkit/reducers/PostsReducer';
+import AddComment from '../Post/AddComment';
 
 
 export default function Post({post}) {
@@ -19,6 +20,7 @@ export default function Post({post}) {
   const [likesCount, setLikesCount]= useState(0);
   const {userID:loggedInUserID} = useSelector(state => state.user?.user);
 
+  const [addCommentModal, setAddCommentModal] = useState(false);
 
   //fetch details of user
   useEffect( () => {
@@ -33,7 +35,7 @@ export default function Post({post}) {
         }
     })
     // .catch(err => setError(err.message))
-  }, [post.userID, post.likes, loggedInUserID]);
+  }, [post.userID, post.likes, loggedInUserID, post]);
 
   //delete a post
   const handlePostDelete = (postID) => {
@@ -72,7 +74,7 @@ export default function Post({post}) {
         { success && <SuccessToast successMsg={success} /> }
         { error && <ErrorToast errorMessage={error} />  }
         <ToastContainer />
-
+        <AddComment addCommentModal={addCommentModal} setAddCommentModal={setAddCommentModal} postID={post._id} userID={loggedInUserID} />
         <div className="post">
             <div className="postWrapper">
               <div className="postTop">
@@ -98,7 +100,6 @@ export default function Post({post}) {
               <div className="postCenter">
                 <span className="postText">{post.description}</span>
                 <img className="postImg" 
-                  alt='post banner'
                   src={post.image}
                   loading='lazy'
                   />
@@ -114,8 +115,8 @@ export default function Post({post}) {
                   <span className="postLikeCounter">{likesCount} likes</span>
                 </div>
                 <div className="postBottomRight">
-                  <i className="fa-regular fa-comment me-1"></i>
-                  <span className="postCommentText">999</span>
+                  <i className="fa-regular fa-lg fa-comment me-1"></i>
+                  <span onClick={() =>  setAddCommentModal(!addCommentModal)} className="postCommentText">{post?.comments?.length} comments</span>
                 </div>
               </div>
             </div>
