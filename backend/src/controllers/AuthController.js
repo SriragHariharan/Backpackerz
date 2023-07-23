@@ -39,7 +39,8 @@ const loginUser = async(req, res) => {
         if(verifiedPassword === false){
             return res.json({ success:false, message:"Wrong password", error_code:400, data:{} })
         }
-        let token = generateJWT(userExists._id)
+        let token = generateJWT(userExists._id);
+        let updateIsOnline = await User.updateOne({email},{$set:{isOnline:true}});
         res.cookie('TechTalkToken',token, { maxAge: process.env.COOKIE_MAXAGE, httpOnly: true });
         return res.json({ success:true, message:"Login successfull", data:{ username:userExists.username, userID : userExists._id }})
     } 
@@ -48,10 +49,21 @@ const loginUser = async(req, res) => {
     }
 }
 
+//logout User
+const logoutUser = async(req, res) => {
+    try {
+        let updateIsOnline = await User.updateMany({_id:req.params.id},{$set:{"isOnline":false}}); 
+        return res.json({ success:true, message:"Logout successfull", data:{} })
+    } catch (error) {
+        return res.json({ success:false, message:error.message, error_code:400, data:{} })        
+    }
+}
+
 
 
 module.exports = {
     addNewUser,
     loginUser,
+    logoutUser,
 }
 

@@ -10,13 +10,23 @@ import {
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LogoutUser } from '../../redux-toolkit/reducers/UserReducer';
+import { instance } from '../../axios/Instance';
 
 export default function Topbar() {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user?.user)
     
     //logout user
-    const handleLogout = () => dispatch(LogoutUser() )
+    const handleLogout = () => {
+        console.log("UID :", user?.userID);
+        instance.post('/auth/logout/'+user?.userID)
+        .then(resp => {
+            if(resp.data.success === true){
+                dispatch(LogoutUser());
+            }
+        } )
+
+    }
     
     let defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
     let profileImage = process.env.REACT_APP_SERVER_IMG_API+'/profile-pics/'+user?.userID+'-profile.jpg'

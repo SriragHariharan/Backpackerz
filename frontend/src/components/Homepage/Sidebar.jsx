@@ -1,5 +1,5 @@
 import React from 'react'
-import OnlineFriends from './OnlineFriends.jsx'
+import Ads from './Ads.jsx'
 
 export default function Sidebar() {
   return (
@@ -30,7 +30,7 @@ export default function Sidebar() {
                 </ul>
                 
                 <hr className="sidebarHr" /> 
-                    <OnlineFriends />
+                    <Ads />
             </div>
         </div>
     </>

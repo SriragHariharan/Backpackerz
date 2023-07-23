@@ -33,9 +33,9 @@ const userSchema = new mongoose.Schema({
         type:Array,
         default:[],
     },
-    isAdmin:{
+    isOnline:{
         type:Boolean,
-        default:false,
+        default:true,
     },
     city:{
         type:String,
