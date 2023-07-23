@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
     MDBContainer,
     MDBRow,
@@ -13,7 +13,43 @@ import ReceiverMsg from "../components/Chat/ReceiverMsg";
 import MessageDate from "../components/Chat/MessageDate";
 import HeaderChat from "../components/Chat/HeaderChat";
 
+//socket io backend conn code
+import { io } from 'socket.io-client'
+const socket = io('http://localhost:8000')
+socket.on('connect', () => console.log(socket.id));
+
+
+
+
 export default function Chat() {
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([])
+
+    //scroll to bottom code
+    const messagesEndRef = useRef(null);
+      const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+    useEffect(() => {
+    scrollToBottom()
+    }, [messages]);
+    
+    //send message to socket io server
+    const handleSubmit = () => {
+        const msg = {};
+        msg.message=message;
+        msg.sender = true;
+        socket.emit('send-message', msg);
+        setMessages([...messages, msg])
+    }
+    
+    //recieve message from server
+    socket.on('recieve-message', message => {
+        setMessages([...messages, message])
+    })
+    
+
+
   return (
     <>
         <MDBContainer fluid style={{ backgroundColor: "#eee" }}>
@@ -26,12 +62,14 @@ export default function Chat() {
                     
                     <div style={{ position: "relative", height: "80vh",overflowX:'scroll' }}>
                         <MDBCardBody>
+                            
                             {/* show dates of send messages */}
                             <MessageDate/>
-                            {/* senders message portion */}
-                            <SenderMsg/>
-                            {/* recievers message section */}
-                            <ReceiverMsg/>
+                            {
+                                messages.map(item => item.sender === true ? <SenderMsg message={item.message} /> : <ReceiverMsg message={item.message} />   )
+                            }
+                            <div ref={messagesEndRef} />
+                            
                         </MDBCardBody>
                     </div>
                     
@@ -39,11 +77,12 @@ export default function Chat() {
                     <input
                         type="text"
                         class="form-control form-control-lg"
-                        id="exampleFormControlInput1"
                         placeholder="Type message"
-                    ></input>
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
 
-                    <span className="ms-3">
+                    <span onClick={handleSubmit} className="ms-3">
                         <MDBIcon fas icon="paper-plane" />
                     </span>
                     

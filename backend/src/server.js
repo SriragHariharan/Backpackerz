@@ -32,6 +32,16 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 
+//socket io connection
+const http = require('http').createServer(app);
+const io = require('socket.io')(http,{cors:{origin:['http://localhost:3000']}});
+require('./socket.js')(io);
+
 
 //server
-app.listen(process.env.PORT, () => console.log(`server started @ http://localhost:${process.env.PORT}`)) 
+// app.listen(process.env.PORT, () => console.log(`server started @ http://localhost:${process.env.PORT}`)) 
+http.listen(process.env.PORT || 3000, function() {
+  const host = http.address().address
+  const port = http.address().port
+  console.log('App listening at http://%s:%s', host, port)
+});
