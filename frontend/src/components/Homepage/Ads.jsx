@@ -12,7 +12,7 @@ export default function Ads() {
           </span>
         </div>
         <img  className="rightbarAd" 
-              src="https://newspaperads.ads2publish.com/wp-content/uploads/2019/05/mrf-wanderer-tyres-tread-anywhere-ad-times-of-india-chennai-31-03-2019.png"
+              src='https://cdn.iphoneincanada.ca/wp-content/uploads/2023/02/Samsung-Galaxy-S23-Image_1.jpg'
               alt="advertisement banner 01" 
         />        
         
