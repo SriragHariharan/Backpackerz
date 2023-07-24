@@ -5,7 +5,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { instance } from "../../axios/Instance";
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
-
+import { Link } from "react-router-dom";
 
 export default function FriendMsgComponent({followerID}) {
 
@@ -51,10 +51,18 @@ export default function FriendMsgComponent({followerID}) {
                           userDetails?.isOnline === false && result !== null && <p className="small text-muted">Last seen : {formatDistanceToNowStrict(new Date(result))} ago...</p>
                         }
                           
-                        <p className="small text-muted">
-                          Lorem, ipsum dolor sit amet consectetur....
-                        </p>
+                        <div>
+                          <Link to={'/chats/'+userDetails?._id} className="btn btn-secondary me-3">
+                            <i class="fa-solid fa-comment fa-xl me-2"></i>
+                            <span>CHAT</span>
+                          </Link>
+                          <span className="btn btn-secondary">
+                            <i class="fa-solid fa-video fa-xl me-2"></i>
+                            <span>VIDEO </span>
+                          </span>
+                        </div>
                       </div>
+                  
                     </div>
                   </div>
                 </li>

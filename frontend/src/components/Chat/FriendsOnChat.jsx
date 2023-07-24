@@ -30,7 +30,7 @@ export default function FriendsOnChat() {
                 <h2 className="pt-4 pb-3 text-center">
                     CHATS
                 </h2>
-                <MDBCol xs="12" md="8" lg="8" xl="7">
+                <MDBCol xs="12" md="8" lg="8" xl="5">
                     { followers.map(f => <FriendMsgComponent followerID={f} /> ) }
                 </MDBCol>
             </MDBRow>

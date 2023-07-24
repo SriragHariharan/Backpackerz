@@ -15,15 +15,22 @@ import HeaderChat from "../components/Chat/HeaderChat";
 
 //socket io backend conn code
 import { io } from 'socket.io-client'
-const socket = io('http://localhost:8000')
-socket.on('connect', () => console.log(socket.id));
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 
 
 export default function Chat() {
+    const {userID} = useSelector(state => state.user?.user) 
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState([]);
+    const {id} = useParams();
+    console.log("current user ID",userID);
+    
+    //socket io code
+    const socket = io('http://localhost:8000',{query:{userID}})
+
 
     //scroll to bottom code
     const messagesEndRef = useRef(null);
@@ -38,13 +45,16 @@ export default function Chat() {
     const handleSubmit = () => {
         const msg = {};
         msg.message=message;
-        msg.sender = true;
+        msg.sender = userID;
+        msg.receiver = id;
+        msg.members=[userID, id]
         socket.emit('send-message', msg);
         setMessages([...messages, msg])
     }
     
     //recieve message from server
-    socket.on('recieve-message', message => {
+    socket.on('get-message', message => {
+        console.log(message);
         setMessages([...messages, message])
     })
     
@@ -58,7 +68,7 @@ export default function Chat() {
                 
                 <MDBCard style={{ borderRadius: "15px" }}>
                     
-                    <HeaderChat />
+                    <HeaderChat id={id} />
                     
                     <div style={{ position: "relative", height: "80vh",overflowX:'scroll' }}>
                         <MDBCardBody>
@@ -66,7 +76,7 @@ export default function Chat() {
                             {/* show dates of send messages */}
                             <MessageDate/>
                             {
-                                messages.map(item => item.sender === true ? <SenderMsg message={item.message} /> : <ReceiverMsg message={item.message} />   )
+                                messages.map(item => item.sender === userID ? <SenderMsg message={item.message} /> : <ReceiverMsg message={item.message} />   )
                             }
                             <div ref={messagesEndRef} />
                             
