@@ -54,12 +54,8 @@ export default function FriendMsgComponent({followerID}) {
                         <div>
                           <Link to={'/chats/'+userDetails?._id} className="btn btn-secondary me-3">
                             <i class="fa-solid fa-comment fa-xl me-2"></i>
-                            <span>CHAT</span>
+                            <span>CHAT NOW</span>
                           </Link>
-                          <span className="btn btn-secondary">
-                            <i class="fa-solid fa-video fa-xl me-2"></i>
-                            <span>VIDEO </span>
-                          </span>
                         </div>
                       </div>
                   

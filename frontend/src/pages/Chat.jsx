@@ -17,6 +17,7 @@ import HeaderChat from "../components/Chat/HeaderChat";
 import { io } from 'socket.io-client'
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { instance } from "../axios/Instance";
 
 
 
@@ -34,13 +35,17 @@ export default function Chat() {
 
     //scroll to bottom code
     const messagesEndRef = useRef(null);
-      const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-    useEffect(() => {
-    scrollToBottom()
-    }, [messages]);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+    useEffect(() => {scrollToBottom()}, [messages]);
     
+    //fetching chats of specific users
+    useEffect(() =>{
+        instance.post('/chat/get-chat',{senderID:userID, receiverID:id})
+        .then(resp => setMessages(resp.data.data?.chats))
+    },[id, userID])
+
     //send message to socket io server
     const handleSubmit = () => {
         const msg = {};
@@ -49,12 +54,13 @@ export default function Chat() {
         msg.receiver = id;
         msg.members=[userID, id]
         socket.emit('send-message', msg);
-        setMessages([...messages, msg])
+        instance.post('/chat/add-new-message/',{...msg})
+        .then(resp => setMessages([...messages, resp.data.data.chat]) )
+        
     }
     
     //recieve message from server
     socket.on('get-message', message => {
-        console.log(message);
         setMessages([...messages, message])
     })
     
@@ -74,9 +80,11 @@ export default function Chat() {
                         <MDBCardBody>
                             
                             {/* show dates of send messages */}
-                            <MessageDate/>
+                            {/* <MessageDate/> */}
                             {
-                                messages.map(item => item.sender === userID ? <SenderMsg message={item.message} /> : <ReceiverMsg message={item.message} />   )
+                                messages.map(item => item.sender === userID ? 
+                                <SenderMsg   message={item.message} createdAt={item.createdAt}  /> : 
+                                <ReceiverMsg message={item.message} createdAt={item.createdAt}  />   )
                             }
                             <div ref={messagesEndRef} />
                             

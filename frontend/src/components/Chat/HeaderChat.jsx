@@ -1,6 +1,7 @@
 import React,{ useEffect, useState } from 'react'
 import { MDBCardHeader } from 'mdb-react-ui-kit'
 import { instance } from '../../axios/Instance';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
 
 export default function HeaderChat({id}) {
@@ -30,6 +31,11 @@ export default function HeaderChat({id}) {
                     style={{ width: "35px", height: "100%" }}
                 />
                 <h5 className="mb-0 text-light ms-3">{userDetails?.username}</h5>
+                <sub style={{color:'limegreen'}} className='ms-3'>{userDetails?.isOnline === true && 'Online'}</sub>
+                {
+                  userDetails?.updatedAt && userDetails?.isOnline === false &&
+                <sub style={{color:'tomato'}}>Last seen : {formatDistanceToNowStrict(new Date(userDetails?.updatedAt))} ago...</sub>  
+                }
             </MDBCardHeader>
     
   )

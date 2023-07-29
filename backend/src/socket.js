@@ -9,12 +9,12 @@ module.exports = function(io) {
 
         //recieve message from client
         socket.on('send-message', ({message, sender, receiver, members}) => {
-            console.log("members :", members)
             msg={}
             msg.message=message;
             msg.sender=sender;
             msg.receiver=receiver;
-            console.log("send to client :::", msg);
+            msg.members=members;
+            msg.createdAt = Date.now()
             socket.to(receiver).emit('get-message',msg);
         })
         
