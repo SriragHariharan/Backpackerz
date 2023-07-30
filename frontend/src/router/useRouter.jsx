@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import ExternalProfile from '../pages/ExternalProfile';
 import Chat from '../pages/Chat';
 import FriendsOnChat from '../components/Chat/FriendsOnChat';
+import Notifications from '../pages/Notifications';
 
 
 export default function useRouter() {
@@ -33,6 +34,7 @@ export default function useRouter() {
       <Route path="auth" element={ !USER ? <Auth/> : <Navigate to={'/'}/> } />
       <Route path="chats" element={ USER ? <FriendsOnChat/> : <Navigate to={'/auth'}/> } />
       <Route path="chats/:id" element={ USER ? <Chat/> : <Navigate to={'/auth'}/> } />
+      <Route path="notifications" element={ USER ? <Notifications/> : <Navigate to={'/auth'}/> } />
     </Route>
   )
 )

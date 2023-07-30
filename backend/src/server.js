@@ -27,12 +27,14 @@ db.once('open', () => console.log("database connected..."))
 const authRouter = require('../src/routes/auth');
 const userRouter = require('../src/routes/user');
 const postRouter = require('../src/routes/post');
-const messageRouter = require('../src/routes/chat')
+const messageRouter = require('../src/routes/chat');
+const notifRouter = require('../src/routes/notification');
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
-app.use('/api/chat', messageRouter)
+app.use('/api/chat', messageRouter);
+app.use('/api/notifs', notifRouter);
 
 //socket io connection
 const http = require('http').createServer(app);

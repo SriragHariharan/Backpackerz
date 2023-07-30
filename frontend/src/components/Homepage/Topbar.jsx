@@ -54,14 +54,14 @@ export default function Topbar() {
                             <i className="fa-solid fa-user fa-lg"></i>
                             <span className="topbarIconBadge">1</span>
                         </div>
-                        <div className="topbarIconItem">
+                        <Link to={'/chats'} className="text-light topbarIconItem">
                             <i className="fa-solid fa-envelope fa-lg"></i>
                             <span className="topbarIconBadge">2</span>
-                        </div>
-                        <div className="topbarIconItem me-4">
+                        </Link>
+                        <Link to={'/notifications'} className="text-light topbarIconItem me-4">
                             <i className="fa-solid fa-bell fa-lg"></i>
                             <span className="topbarIconBadge">1</span>
-                        </div>
+                        </Link>
                         </div>
                         
                         <div>
