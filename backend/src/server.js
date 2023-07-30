@@ -39,6 +39,8 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http,{cors:{origin:['http://localhost:3000']}});
 require('./socket.js')(io);
 
+//export io module to controllers
+module.exports.io = io;
 
 //server
 // app.listen(process.env.PORT, () => console.log(`server started @ http://localhost:${process.env.PORT}`)) 

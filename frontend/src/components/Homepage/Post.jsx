@@ -7,13 +7,14 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../../redux-toolkit/reducers/PostsReducer';
 import AddComment from '../Post/AddComment';
-
+import useSocket from '../../hooks/useSocket';
 
 export default function Post({post}) {
-
+  const {socket} = useSocket()
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [notification, setNotification] = useState(null)
   const dispatch = useDispatch();
 
   const [isLiked, setIsLiked] = useState(false);
@@ -21,6 +22,27 @@ export default function Post({post}) {
   const {userID:loggedInUserID} = useSelector(state => state.user?.user);
 
   const [addCommentModal, setAddCommentModal] = useState(false);
+
+  //fetch any post message of added post and save in state
+  socket.on("post-added", data => {
+    setNotification(data);
+    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+  })
+  
+  socket.on('commented-in-post', data => {
+    setNotification(data);
+    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+  })
+
+  socket.on('liked-post', data => {
+    setLikesCount(likesCount + 1)
+    setNotification(data);
+    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+  })
+  
+  socket.on('unliked-post', data => {
+    setLikesCount(likesCount - 1)
+  })
 
   //fetch details of user
   useEffect( () => {
@@ -71,6 +93,7 @@ export default function Post({post}) {
 
   return (
     <>
+        { notification !== null  && <SuccessToast successMsg={notification} /> }
         { success && <SuccessToast successMsg={success} /> }
         { error && <ErrorToast errorMessage={error} />  }
         <ToastContainer />

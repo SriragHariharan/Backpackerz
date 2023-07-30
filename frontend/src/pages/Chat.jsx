@@ -14,11 +14,11 @@ import MessageDate from "../components/Chat/MessageDate";
 import HeaderChat from "../components/Chat/HeaderChat";
 
 //socket io backend conn code
-import { io } from 'socket.io-client'
+import useSocket from "../hooks/useSocket";
+
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { instance } from "../axios/Instance";
-
 
 
 
@@ -30,8 +30,7 @@ export default function Chat() {
     console.log("current user ID",userID);
     
     //socket io code
-    const socket = io('http://localhost:8000',{query:{userID}})
-
+    const { socket }  = useSocket();  //custom hook for importing socket instance
 
     //scroll to bottom code
     const messagesEndRef = useRef(null);
@@ -56,15 +55,12 @@ export default function Chat() {
         socket.emit('send-message', msg);
         instance.post('/chat/add-new-message/',{...msg})
         .then(resp => setMessages([...messages, resp.data.data.chat]) )
-        
     }
     
     //recieve message from server
     socket.on('get-message', message => {
         setMessages([...messages, message])
     })
-    
-
 
   return (
     <>
