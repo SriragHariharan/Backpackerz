@@ -26,22 +26,27 @@ export default function Post({post}) {
   //fetch any post message of added post and save in state
   socket.on("post-added", data => {
     setNotification(data);
-    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+    setTimeout(()=>{setNotification(null)},100) //notifs are set to null to avoid unnecessary show of messages
   })
   
   socket.on('commented-in-post', data => {
     setNotification(data);
-    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+    setTimeout(()=>{setNotification(null)},100) //notifs are set to null to avoid unnecessary show of messages
   })
 
   socket.on('liked-post', data => {
     setLikesCount(likesCount + 1)
     setNotification(data);
-    setTimeout(()=>{setNotification(null)},500) //notifs are set to null to avoid unnecessary show of messages
+    setTimeout(()=>{setNotification(null)},100) //notifs are set to null to avoid unnecessary show of messages
   })
   
   socket.on('unliked-post', data => {
     setLikesCount(likesCount - 1)
+  })
+
+  socket.on('follows-you', data => {
+    setNotification(data);
+    setTimeout(()=>{setNotification(null)},100) //notifs are set to null to avoid unnecessary show of messages
   })
 
   //fetch details of user

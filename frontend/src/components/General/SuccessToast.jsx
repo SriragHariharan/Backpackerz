@@ -7,6 +7,8 @@ export default function SuccessToast({successMsg}) {
         toast.success(successMsg, {
             position: toast.POSITION.TOP_CENTER,
              toastId: 'suxesToast1',
+             autoClose: 1000,
+             theme: "dark",
         });
     };
     return (

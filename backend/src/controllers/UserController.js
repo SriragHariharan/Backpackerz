@@ -1,9 +1,10 @@
 const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
+const Notification = require('../models/NotificationModel');
 const uploadPathProfilePic ='./uploads/profile-pics/'
 const uploadPathCoverPic ='./uploads/cover-pics/'
 const fs = require("fs");
-
+const IOimport = require('../server')
 
 //get a single user details
 const getUserDetails = async(req, res) => {
@@ -68,6 +69,11 @@ const followUser = async(req, res) => {
         let user = await User.updateOne({_id:userID}, {$push:{followers : followerID }}) 
         let follower = await User.updateOne({_id:followerID}, {$push:{following:userID}}) 
         if(user.acknowledged === true && user.modifiedCount === 1 && follower.acknowledged === true && follower.modifiedCount === 1 ){
+            let followerDetails = await User.findOne({_id:userID});
+            // saving notifications to db
+            let newNotification = new Notification({text:`${followerDetails?.username} is following you.`, to:followerID, type:4});
+            let savedNotification = await newNotification.save();
+            IOimport.io.to(followerID).emit('follows-you', `${followerDetails?.username} is following you.`)
             return res.json({ success:true, message:"followed user", data:{} })
         }
         return res.json({ success:false, message:"Unable to follow", error_code:404, data:{} });            

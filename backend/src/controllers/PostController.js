@@ -27,8 +27,8 @@ const addNewPost = async(req, res) => {
                     
                     // adding notifications to db
                     for(let i=0; i< following?.following?.length; i++){
-                            let newNotification = new Notification({text:`${following?.username} added a new post`, to:following?.following[i], type:3});
-                            let savedNotification = await newNotification.save();
+                        let newNotification = new Notification({text:`${following?.username} added a new post.`, to:following.following[i], type:3});
+                        let savedNotification = await newNotification.save();
                     }
                     return res.json({ success:true, message:"New post added successfully", data:{post} })
         }
@@ -38,8 +38,8 @@ const addNewPost = async(req, res) => {
         
         // adding notifications to db
         for(let i=0; i< following?.following?.length; i++){
-                let newNotification = new Notification({text:`${following?.username} added a new post`, to:following?.following[i], type:3});
-                let savedNotification = await newNotification.save();
+            let newNotification = new Notification({text:`${following?.username} added a new post.`, to:following.following[i], type:3});
+            let savedNotification = await newNotification.save();
         }
         var post = await Post.findOne({_id:savedPost._id});
         return res.json({ success:true, message:"New post added successfully", data:{post} })
@@ -81,9 +81,8 @@ const addComment = async(req, res) => {
             return res.json({ success:true, message:"Unable to update post", data:{} })
         }
         let commentedUserDetails = await User.findOne({_id:req.body.userID});
-        
         // saving notifications to db
-        let newNotification = new Notification({text:`${commentedUserDetails?.username} commented on your post`, to:post.userID, type:2});
+        let newNotification = new Notification({text:`${commentedUserDetails?.username} added a comment on your post.`, to:post.userID, type:2});
         let savedNotification = await newNotification.save();
         IOimport.io.to(post.userID).emit('commented-in-post', `${commentedUserDetails?.username} commented on your post`)
         return res.json({ success:true, message:"Post updated successfully", data:{} })
@@ -105,7 +104,7 @@ const likeORunlike = async(req, res) => {
             if(response.acknowledged === true && response.modifiedCount === 1){
                 let likedUserDetails = await User.findOne({_id:req.userID});
                 // saving notifications to db
-                let newNotification = new Notification({text:`${likedUserDetails?.username} liked your post`, to:post.userID, type:1});
+                let newNotification = new Notification({text:`${likedUserDetails?.username} liked your post.`, to:post.userID, type:1});
                 let savedNotification = await newNotification.save();
                 // sending live notification of like via socket.io
                 IOimport.io.to(post.userID).emit('liked-post', `${likedUserDetails?.username} liked your post`)
