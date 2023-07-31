@@ -8,7 +8,7 @@ export default function Notification({notification}) {
     let post = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg5MfLfDppqkDAi7Ic198S_kGNtbEpwvBZyK_QlI4qoiIRPtoyxPj5DnIYaI2DvSCLSns&usqp=CAU"
     let following = 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
   return (
-    <div class="notification col-12" style={{backgroundColor: notification?.isSeen === true ? 'white':'#ececec'}}>
+    <div class="notification col-12" style={{backgroundColor: notification?.isSeen === true ? 'white':'#c9c9c9'}}>
         { notification?.type === 1 && <img src={like} alt="like" /> }
         { notification?.type === 2 && <img src={comment} alt="like" /> }
         { notification?.type === 3 && <img src={post} alt="like" /> }

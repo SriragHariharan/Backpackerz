@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect } from 'react'
 import {
   MDBNavbarNav,
   MDBNavbarItem,
@@ -11,9 +11,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LogoutUser } from '../../redux-toolkit/reducers/UserReducer';
 import { instance } from '../../axios/Instance';
+import { setNotifications } from '../../redux-toolkit/reducers/NotifReducer';
 
 export default function Topbar() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user?.user)
     
     //logout user
@@ -25,9 +26,20 @@ export default function Topbar() {
                 dispatch(LogoutUser());
             }
         } )
-
     }
     
+    //set notifications
+    const [notificationss, setNotificationss] = useState([]);
+    const notifications = notificationss.filter(notif => notif.isSeen === false)
+    // console.log("notifications :", notifications)
+    useEffect(() =>{
+        instance.get('/notifs/notifications')
+        .then(resp => {
+            setNotificationss(resp.data.data.notifications)
+            dispatch(setNotifications(resp.data.data.notifications));
+        })
+    },[ notificationss, dispatch])
+
     let defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
     let profileImage = process.env.REACT_APP_SERVER_IMG_API+'/profile-pics/'+user?.userID+'-profile.jpg'
     
@@ -50,17 +62,17 @@ export default function Topbar() {
                     {/* icons start */}
                     <div className="topbarRight order-lg-last col-lg-6 col-sm-6 col-6">
                         <div className="topbarIcons">
-                        <div className="topbarIconItem">
+                        {/* <div className="topbarIconItem">
                             <i className="fa-solid fa-user fa-lg"></i>
                             <span className="topbarIconBadge">1</span>
-                        </div>
+                        </div> */}
                         <Link to={'/chats'} className="text-light topbarIconItem">
-                            <i className="fa-solid fa-envelope fa-lg"></i>
+                            <i className="fa-solid fa-envelope fa-xl"></i>
                             <span className="topbarIconBadge">2</span>
                         </Link>
                         <Link to={'/notifications'} className="text-light topbarIconItem me-4">
-                            <i className="fa-solid fa-bell fa-lg"></i>
-                            <span className="topbarIconBadge">1</span>
+                            <i className="fa-solid fa-bell fa-xl"></i>
+                            <span className="topbarIconBadge">{Number(notifications?.length) || 0}</span>
                         </Link>
                         </div>
                         

@@ -4,18 +4,14 @@ import Sidebar from '../components/Homepage/Sidebar'
 import Topbar from '../components/Homepage/Topbar'
 import Notification from '../components/Notification/Notification'
 import { instance } from '../axios/Instance'
+import { useSelector } from 'react-redux'
 
 export default function Notifications() {
     let like = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Facebook_Like_button.svg/1024px-Facebook_Like_button.svg.png"
     let comment = "https://cdn.pixabay.com/photo/2017/04/11/22/25/balloon-2223048_640.png"
     let post = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg5MfLfDppqkDAi7Ic198S_kGNtbEpwvBZyK_QlI4qoiIRPtoyxPj5DnIYaI2DvSCLSns&usqp=CAU"
 
-    const [notifications, setNotifications] = useState(null);
-
-    useEffect(() =>{
-        instance.get('/notifs/notifications')
-        .then(resp => setNotifications(resp.data.data.notifications))
-    },[notifications])
+    let notifications = useSelector(state => state.notifications?.notifications)
 
     const markAsRead = () => {
         instance.post('/notifs/mark-as-read')

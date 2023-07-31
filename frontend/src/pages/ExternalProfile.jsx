@@ -6,9 +6,11 @@ import ErrorToast from '../components/General/ErrorToast'
 import { ToastContainer } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import Post from '../components/Homepage/Post'
+import { useSelector } from 'react-redux'
 
 export default function ExternalProfile() {
     
+    let userID = useSelector(state => state?.user?.user?.userID)
     const [userDetails, setUserDetails] = useState(null);
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
@@ -100,6 +102,16 @@ export default function ExternalProfile() {
                     <span className="profileInfoDesc ms-3 me-3 mb-4 ">
                         {userDetails?.description?.length === 0 ? <p className="text-secondary">Please add description....</p>  : userDetails?.description}
                     </span>
+                  </div>
+                  
+                  <div className='text-center'>
+                    {
+                      userDetails?.followers.includes(userID) && 
+                        <i className='btn btn-info rounded-border h3 text-light'>
+                            follows you
+                            <i className="ms-3 fa-xl fa-solid fa-hand-holding-heart" style={{color: "#ffffff"}}></i>
+                        </i>
+                    }
                   </div>
 
                   <h4 className="rightbarTitle text-center"><u>User information</u></h4>
