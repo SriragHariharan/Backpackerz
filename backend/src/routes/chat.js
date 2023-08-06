@@ -1,4 +1,4 @@
-const { addNewChat, getChat } = require('../controllers/ChatController');
+const { addNewChat, getChat, SetRead } = require('../controllers/ChatController');
 const { authMiddleware } = require('../middlewares/AuthMiddleware')
 
 const router = require('express').Router();
@@ -7,6 +7,9 @@ const router = require('express').Router();
 router.post('/add-new-message', authMiddleware, addNewChat);
 
 //get chats of specific users
-router.post('/get-chat/', authMiddleware, getChat)
+router.post('/get-chat/', authMiddleware, getChat);
+
+//mark chats as read
+router.post('/mark-as-read', authMiddleware, SetRead);
 
 module.exports = router

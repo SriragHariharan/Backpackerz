@@ -10,7 +10,7 @@ import {
 } from "mdb-react-ui-kit";
 import SenderMsg from "../components/Chat/SenderMsg";
 import ReceiverMsg from "../components/Chat/ReceiverMsg";
-import MessageDate from "../components/Chat/MessageDate";
+// import MessageDate from "../components/Chat/MessageDate";
 import HeaderChat from "../components/Chat/HeaderChat";
 
 //socket io backend conn code
@@ -42,7 +42,10 @@ export default function Chat() {
     //fetching chats of specific users
     useEffect(() =>{
         instance.post('/chat/get-chat',{senderID:userID, receiverID:id})
-        .then(resp => setMessages(resp.data.data?.chats))
+        .then(resp => {
+             setMessages(resp.data.data?.chats);
+             instance.post('chat/mark-as-read',{senderID:userID, receiverID:id})
+        })
     },[id, userID])
 
     //send message to socket io server
@@ -60,7 +63,10 @@ export default function Chat() {
     //recieve message from server
     socket.on('get-message', message => {
         setMessages([...messages, message])
+        instance.post('chat/mark-as-read',{senderID:userID, receiverID:id})
+
     })
+    
 
   return (
     <>
@@ -79,7 +85,7 @@ export default function Chat() {
                             {/* <MessageDate/> */}
                             {
                                 messages.map(item => item.sender === userID ? 
-                                <SenderMsg   message={item.message} createdAt={item.createdAt}  /> : 
+                                <SenderMsg   message={item.message} createdAt={item.createdAt} isRead={item.isRead}  /> : 
                                 <ReceiverMsg message={item.message} createdAt={item.createdAt}  />   )
                             }
                             <div ref={messagesEndRef} />

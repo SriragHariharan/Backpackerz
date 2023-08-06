@@ -17,6 +17,10 @@ const chatSchema = new mongoose.Schema({
         type:Array,
         required:true
     },
+    isRead:{
+        type:Boolean,
+        default:false
+    }
 },{timestamps:true})
 
 module.exports = mongoose.model('Chat', chatSchema)

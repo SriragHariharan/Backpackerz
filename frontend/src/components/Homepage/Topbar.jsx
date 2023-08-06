@@ -30,7 +30,7 @@ export default function Topbar() {
     
     //set notifications
     const [notificationss, setNotificationss] = useState([]);
-    const notifications = notificationss.filter(notif => notif.isSeen === false)
+    const notifications = notificationss?.filter(notif => notif.isSeen === false)
     // console.log("notifications :", notifications)
     useEffect(() =>{
         instance.get('/notifs/notifications')

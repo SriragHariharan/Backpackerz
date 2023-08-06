@@ -1,7 +1,7 @@
 import React from 'react'
 import format from 'date-fns/format'
 
-export default function SenderMsg({message, createdAt}) {
+export default function SenderMsg({message, createdAt, isRead}) {
   return (
     <div className="d-flex flex-row justify-content-end pt-1">
         <div>
@@ -12,6 +12,9 @@ export default function SenderMsg({message, createdAt}) {
                 {format(new Date(createdAt), 'dd/MM/yy')}
                 &nbsp;&nbsp;&nbsp;
                 {format(new Date(createdAt), 'hh:mm')}
+                &nbsp;&nbsp;&nbsp;
+                {isRead === false ? (<sub className="fa-solid fa-check fa-2xl" style={{color: "#d9d9d9"}}></sub>) : (<sub className="fa-solid fa-check fa-2xl" style={{color: "#2e35ff"}}></sub>) }        
+
             </p>
         </div>
     </div>

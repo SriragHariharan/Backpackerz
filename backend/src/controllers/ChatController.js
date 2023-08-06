@@ -23,5 +23,15 @@ const getChat = async(req, res) => {
     }
 }
 
+//update isRead in chats
+const SetRead = async(req, res) => {
+    try {
+        let {senderID, receiverID} = req.body;
+        let chats = await Chat.updateMany({ members: {$all:[senderID, receiverID]} }, {$set:{isRead:true}});
+    } catch (error) {
+        return res.json({ success:false, message:error.message, error_code:500, data:{} })  
+    }
+}
 
-module.exports={addNewChat, getChat}
+
+module.exports={addNewChat, getChat, SetRead}
