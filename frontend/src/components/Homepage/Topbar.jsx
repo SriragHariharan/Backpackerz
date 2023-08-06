@@ -62,17 +62,12 @@ export default function Topbar() {
                     {/* icons start */}
                     <div className="topbarRight order-lg-last col-lg-6 col-sm-6 col-6">
                         <div className="topbarIcons">
-                        {/* <div className="topbarIconItem">
-                            <i className="fa-solid fa-user fa-lg"></i>
-                            <span className="topbarIconBadge">1</span>
-                        </div> */}
-                        <Link to={'/chats'} className="text-light topbarIconItem">
-                            <i className="fa-solid fa-envelope fa-xl"></i>
-                            <span className="topbarIconBadge">2</span>
-                        </Link>
                         <Link to={'/notifications'} className="text-light topbarIconItem me-4">
                             <i className="fa-solid fa-bell fa-xl"></i>
                             <span className="topbarIconBadge">{Number(notifications?.length) || 0}</span>
+                        </Link>
+                        <Link to={'/chats'} className="text-light topbarIconItem me-4">
+                            <i className="fa-solid fa-earth-asia fa-xl"></i>
                         </Link>
                         </div>
                         
@@ -93,14 +88,11 @@ export default function Topbar() {
                                         />
                                     </MDBDropdownToggle>
                                     <MDBDropdownMenu>
-                                        <MDBDropdownItem className='px-3 py-2'>
-                                            <Link to={'/profile'}>Profile</Link>
+                                        <MDBDropdownItem className='px-3 py-2 text-center'>
+                                            <Link className='btn btn-success w-100' to={'/profile'}>Profile</Link>
                                         </MDBDropdownItem>
                                         <MDBDropdownItem className='px-3 py-2'>
-                                            <Link to={'/profile'}>Online</Link>
-                                        </MDBDropdownItem>
-                                        <MDBDropdownItem className='px-3 py-2'>
-                                            <Link onClick={handleLogout}>Logout</Link>
+                                            <Link className='btn btn-danger w-100' onClick={handleLogout}>Logout</Link>
                                         </MDBDropdownItem>
                                     </MDBDropdownMenu>
                                     </MDBDropdown>

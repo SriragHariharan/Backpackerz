@@ -5,10 +5,10 @@ export default function Ads() {
     <>
         <div className="birthdayContainer">
           <img className="birthdayImg"              
-            src="https://e7.pngegg.com/pngimages/295/410/png-clipart-christmas-gift-christmas-gift-gift-miscellaneous-ribbon-thumbnail.png"
-            alt="" />
+            src="https://cdn.vectorstock.com/i/preview-1x/71/90/quotation-balloon-silhouette-icon-o-rmention-vector-45247190.jpg"
+            alt="quote jpeg" />
           <span className="birthdayText">
-            <b>Pola Foster</b> and <b>3 other friends</b> have a birthday today.
+            <b>“In a gentle way, you can shake the world.”</b> ~ Mahatma Gandhi.
           </span>
         </div>
         <img  className="rightbarAd" 

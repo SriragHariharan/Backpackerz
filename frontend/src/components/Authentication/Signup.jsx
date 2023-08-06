@@ -38,8 +38,8 @@ export default function Signup({setNewUser}) {
         <ToastContainer />
 
         <div className="d-block d-sm-none d-flex flex-column align-items-center justify-content-center" style={{marginTop:'-200px'}}>
-            <div className="h1 text-light">TECH 🌎 TALK</div>
-            <p className='text-light'>Connect with techies all over the world.</p>
+            <div className="loginLogo" style={{fontSize:'70px'}}>Backpackerz</div>
+            <p className='login-desc'>Connect. &nbsp; &nbsp; &nbsp; Pack. &nbsp; &nbsp; &nbsp; Travel.</p>
         </div>
         <form className="loginBox card" onSubmit={handleSubmit(onSubmit)}>
             <input {...register("username", { required: true})} placeholder="User name" type="text" className="loginInput" />
